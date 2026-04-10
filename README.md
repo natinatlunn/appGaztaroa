@@ -26,3 +26,11 @@ Para crear un menú de navegación en stack en React Native se utiliza el compon
 En cuanto al paso de parámetros entre pantallas, el componente Calendario utiliza la función navigate para ir a la pantalla de detalle enviando información adicional. Cuando se pulsa sobre un elemento, se ejecuta navigate('DetalleExcursion', { excursionId: item.id }), lo que envía el identificador de la excursión dentro de route.params. Después, en el componente DetalleExcursion, se accede a este parámetro mediante this.props.route.params, extrayendo excursionId. Con este valor, la pantalla puede localizar la excursión correspondiente dentro del array y mostrar sus datos. Así, cada Screen recibe automáticamente la propiedad route, permitiendo acceder a los parámetros enviados durante la navegación.
 
 El tiempo del ejercicio = 1h30m
+
+## Ejercicio 5
+
+Dentro del NavigationContainer solo puede haber un único árbol de navegación. Por eso, cuando se necesita usar varios tipos de navegadores a la vez (como un Stack y un Drawer), lo que se hace es anidarlos. Para solucionar esto, se crean varios Stack.Navigator independientes y luego se meten dentro de un Drawer.Navigator. Así, el Drawer funciona como la navegación principal de la app y cada opción del menú carga su propio stack interno. Con esto se consigue que la aplicación esté mejor organizada y que cada sección tenga su propia navegación por separado.
+
+Además, se añade un stack navigator específico para el componente Home. De esta forma, la pantalla de inicio ya tiene su propia cabecera y es mucho más fácil ampliarla en el futuro con más pantallas si hace falta. Por otro lado, en el Drawer.Navigator se configura la opción headerShown: false para que el drawer no genere una cabecera extra. Esto es importante porque lo que queremos es que se vea la cabecera de cada Stack interno, que ya tiene sus propios estilos. 
+
+Tiempo del ejercicio = 2h
