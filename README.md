@@ -34,3 +34,11 @@ Dentro del NavigationContainer solo puede haber un único árbol de navegación.
 Además, se añade un stack navigator específico para el componente Home. De esta forma, la pantalla de inicio ya tiene su propia cabecera y es mucho más fácil ampliarla en el futuro con más pantallas si hace falta. Por otro lado, en el Drawer.Navigator se configura la opción headerShown: false para que el drawer no genere una cabecera extra. Esto es importante porque lo que queremos es que se vea la cabecera de cada Stack interno, que ya tiene sus propios estilos. 
 
 Tiempo del ejercicio = 2h
+
+## Ejercicio 6
+
+Se han desarrollado e integrado los componentes Contacto y Quiénes somos, completando la estructura de secciones de la aplicación. Para la pantalla de contacto, se ha utilizado un componente funcional que renderiza una Card de React Native Paper con la información de contacto y un Divider para separar el título del cuerpo de texto. En el caso de "Quiénes somos", se ha implementado un componente de clase que combina un componente funcional llamado Historia para el bloque superior y una FlatList para mostrar dinámicamente el listado de actividades y recursos, importando los datos desde el archivo actividades.js.
+
+En el apartado de navegación, se ha actualizado el Drawer.Navigator en CampobaseComponent.js para incluir estas nuevas secciones, que cada una envuelta en su propio Stack.Navigator. Además, se ha modificado la estética de los componentes Home y DetalleExcursion sustituyendo las cabeceras estándar de las Card por un contenedor.
+
+Tiempo del ejercicio = 2h
