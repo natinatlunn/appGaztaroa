@@ -50,3 +50,14 @@ Se ha ampliado el componente DetalleExcursion mediante la creación de un nuevo 
 También se ha customizado el Drawer Menu para mejorar visualmente la aplicación. Esto incluye la creación de un componente CustomDrawerContent que integra el logotipo del club y el nombre "Gaztaroa" en la parte superior del menú lateral . Además, se han añadido iconos de MaterialCommunityIcons a cada opción del menú (home, information, calendar, card-account-phone). Sobre la estructura de navegación, se ha definido un componente BotonMenu que mediante DrawerActions.toggleDrawer(), permite desplegar el menú desde un botón en la cabecera . Esta configuración se ha aplicado mediante la función auxiliar menuHeaderOptions, utilizando la propiedad headerLeft en los stacks de navegación.
 
 Tiempo del ejercicio= 2h
+
+## Ejercicio 8
+
+Se ha instalado json-server@0.17.4 para tener un servidor API local que simula el backend. Para esto, se ha creado una carpeta json-server con el fichero db.json (que contiene toda la data que antes estaba en archivos .js) y se han movido las imágenes a una carpeta public/ para que el servidor las sirva de forma estática.
+
+Para mantener el orden, se han hecho estos cambios clave: 
+Configuración centralizada, se ha creado comun/comun.js para definir ahí la baseUrl del servidor y los colores de la app, así no hay que estar cambiando la IP o los colores en cada archivo.
+Carga de imágenes: Se ha dejado de usar require() y ahora las imágenes se obtienen mediante uri usando la baseUrl del servidor.
+Ajustes visuales: Se ha cambiado el color de los títulos a blanco en la vista de detalle para que contrasten mejor sobre las imágenes de fondo.
+
+Tiempo del ejercicio = 1h30m

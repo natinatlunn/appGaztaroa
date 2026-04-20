@@ -3,6 +3,7 @@ import { ImageBackground, View, StyleSheet, ScrollView } from 'react-native';
 import { Card, Text, IconButton } from 'react-native-paper';
 import { EXCURSIONES } from '../comun/excursiones';
 import { COMENTARIOS } from '../comun/comentarios';
+import { getImageUrl } from '../comun/comun';
 
 
 function RenderExcursion(props) {
@@ -12,7 +13,7 @@ function RenderExcursion(props) {
     return (
       <Card style={styles.card}>
         <ImageBackground
-          source={require('./imagenes/40Años.png')}
+          source={{ uri: getImageUrl(excursion.imagen) }}
           style={styles.image}
           imageStyle={styles.imageContent}
         >

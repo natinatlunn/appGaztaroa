@@ -2,6 +2,7 @@ import { StyleSheet, View, ScrollView, Image } from 'react-native';
 import { Card, Text, Divider, List } from 'react-native-paper';
 import { Component } from 'react';
 import { ACTIVIDADES } from '../comun/actividades';
+import { getImageUrl } from '../comun/comun';
 
 
 
@@ -48,7 +49,7 @@ class QuienesSomos extends Component {
                     description={item.descripcion}
                     left={(props) => (
                         <Image
-                            source={require('./imagenes/40Años.png')}
+                            source={{ uri: getImageUrl(item.imagen) }}
                             style={{ width: 40, height: 40 }}
                         />
                     )}
