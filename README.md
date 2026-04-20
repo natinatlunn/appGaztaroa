@@ -42,3 +42,11 @@ Se han desarrollado e integrado los componentes Contacto y Quiénes somos, compl
 En el apartado de navegación, se ha actualizado el Drawer.Navigator en CampobaseComponent.js para incluir estas nuevas secciones, que cada una envuelta en su propio Stack.Navigator. Además, se ha modificado la estética de los componentes Home y DetalleExcursion sustituyendo las cabeceras estándar de las Card por un contenedor.
 
 Tiempo del ejercicio = 2h
+
+## Ejercicio 7
+
+Se ha ampliado el componente DetalleExcursion mediante la creación de un nuevo componente funcional llamado renderComentario. Este componente extrae la información del archivo comentarios.js y renderiza una Card que incluye el texto del comentario, la valoración en estrellas, el autor y la fecha formateada . La lógica de visualización se basa en el filtrado de los comentarios mediante el excursionId, garantizando que solo se muestren los datos pertinentes a la excursión seleccionada. Para la interacción del usuario, se ha integrado el componente IconButton de la librería React Native Paper. Esta funcionalidad permite marcar una excursión como "favorita", alterando el estado de la aplicación mediante un array favoritos[] que se actualiza con concat. El icono cambia dinámicamente entre heart y heart-outline según el estado del elemento, empleando el método some para verificar si el ID de la excursión ya existe en el listado de favoritos.
+
+También se ha customizado el Drawer Menu para mejorar visualmente la aplicación. Esto incluye la creación de un componente CustomDrawerContent que integra el logotipo del club y el nombre "Gaztaroa" en la parte superior del menú lateral . Además, se han añadido iconos de MaterialCommunityIcons a cada opción del menú (home, information, calendar, card-account-phone). Sobre la estructura de navegación, se ha definido un componente BotonMenu que mediante DrawerActions.toggleDrawer(), permite desplegar el menú desde un botón en la cabecera . Esta configuración se ha aplicado mediante la función auxiliar menuHeaderOptions, utilizando la propiedad headerLeft en los stacks de navegación.
+
+Tiempo del ejercicio= 2h
