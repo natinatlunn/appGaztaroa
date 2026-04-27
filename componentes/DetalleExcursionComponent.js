@@ -1,9 +1,8 @@
 import { Component } from 'react';
 import { ImageBackground, View, StyleSheet, ScrollView } from 'react-native';
 import { Card, Text, IconButton } from 'react-native-paper';
-import { EXCURSIONES } from '../comun/excursiones';
-import { COMENTARIOS } from '../comun/comentarios';
 import { getImageUrl } from '../comun/comun';
+import { connect } from 'react-redux';
 
 
 function RenderExcursion(props) {
@@ -81,8 +80,6 @@ class DetalleExcursion extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      excursiones: EXCURSIONES,
-      comentarios: COMENTARIOS,
       favoritos: [],
     };
 
@@ -95,23 +92,33 @@ class DetalleExcursion extends Component {
 
   render() {
     const { excursionId } = this.props.route.params;
+    const excursiones = this.props.excursiones?.excursiones ?? [];
+    const comentarios = this.props.comentarios?.comentarios ?? [];
+    const idExcursion = +excursionId;
 
     return (
       <ScrollView>
         <RenderExcursion
-          excursion={this.state.excursiones[+excursionId]}
-          favorita={this.state.favoritos.some((el) => el === excursionId)}
-          onPress={() => this.marcarFavorito(excursionId)}
+          excursion={excursiones[idExcursion]}
+          favorita={this.state.favoritos.some((el) => el === idExcursion)}
+          onPress={() => this.marcarFavorito(idExcursion)}
         />
         <RenderComentario
-          comentarios={this.state.comentarios.filter(
-            (comentario) => comentario.excursionId === +excursionId
+          comentarios={comentarios.filter(
+            (comentario) => comentario.excursionId === idExcursion
           )}
         />
       </ScrollView>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    excursiones: state.excursiones,
+    comentarios: state.comentarios,
+  };
+};
 
 const styles = StyleSheet.create({
   card: {
@@ -154,4 +161,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DetalleExcursion;
+export default connect(mapStateToProps)(DetalleExcursion);

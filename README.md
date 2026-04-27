@@ -61,3 +61,12 @@ Carga de imágenes: Se ha dejado de usar require() y ahora las imágenes se obti
 Ajustes visuales: Se ha cambiado el color de los títulos a blanco en la vista de detalle para que contrasten mejor sobre las imágenes de fondo.
 
 Tiempo del ejercicio = 1h30m
+
+## Ejercicio 9
+
+La aplicación implementa una arquitectura basada en Redux y el middleware Thunk para centralizar la gestión del estado y la lógica asíncrona. Al inicializarse el CampobaseComponent, el ciclo de vida componentDidMount dispara la carga de datos, permitiendo que el middleware intercepte las peticiones a la API REST. Este proceso gestiona de forma robusta los estados de carga, éxito y error, actualizando el estado global mediante reducers puros, lo que garantiza que la interfaz siempre refleje una "fuente única de verdad" y proporcione una experiencia de usuario consistente.
+
+Una vez que los datos residen en el store, los componentes de la interfaz, como CalendarioComponent, consumen la información de manera reactiva mediante mapStateToProps, actualizándose automáticamente ante cualquier cambio. Al navegar hacia el DetalleExcursionComponent, la aplicación aprovecha este estado global ya cargado: el componente recibe el ID de la excursión, filtra la información necesaria directamente desde Redux y renderiza los detalles, optimizando el rendimiento al eliminar la necesidad de realizar peticiones redundantes a la red durante la navegación.
+
+Tiempo del ejercicio = 3h
+El documento con los diagramas se encuentra en el comentario del commit

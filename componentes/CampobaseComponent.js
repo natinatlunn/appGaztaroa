@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import Calendario from './CalendarioComponent';
 import DetalleExcursion from './DetalleExcursionComponent';
-import { EXCURSIONES } from '../comun/excursiones';
 import { Platform, View, StyleSheet, Image, Text, Pressable } from 'react-native';
 import Constants from 'expo-constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -14,7 +13,15 @@ import Home from './HomeComponent';
 import Contacto from './ContactoComponent';
 import QuienesSomos from './QuienesSomosComponent';
 import { getImageUrl, colorGaztaroaOscuro, colorGaztaroaClaro } from '../comun/comun';
+import { connect } from 'react-redux';
+import { fetchExcursiones, fetchComentarios, fetchCabeceras, fetchActividades } from '../redux/ActionCreators';
 
+const mapDispatchToProps = (dispatch) => ({
+  fetchExcursiones: () => dispatch(fetchExcursiones()),
+  fetchComentarios: () => dispatch(fetchComentarios()),
+  fetchCabeceras: () => dispatch(fetchCabeceras()),
+  fetchActividades: () => dispatch(fetchActividades()),
+});
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -59,11 +66,12 @@ function CustomDrawerContent(props) {
 
 
 class Campobase extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      excursiones: EXCURSIONES,
-    };
+
+  componentDidMount() {
+    this.props.fetchExcursiones();
+    this.props.fetchComentarios();
+    this.props.fetchCabeceras();
+    this.props.fetchActividades();
   }
 
   menuHeaderOptions = (title, navigation) => ({
@@ -108,12 +116,7 @@ class Campobase extends Component {
           name="Calendario"
           options={({ navigation }) => this.menuHeaderOptions('Calendario Gaztaroa', navigation)}
         >
-          {(props) => (
-            <Calendario
-              {...props}
-              excursiones={this.state.excursiones}
-            />
-          )}
+          {(props) => <Calendario {...props} />}
         </Stack.Screen>
 
         <Stack.Screen
@@ -123,12 +126,7 @@ class Campobase extends Component {
             headerBackTitle: 'Calendario',
           }}
         >
-          {(props) => (
-            <DetalleExcursion
-              {...props}
-              excursiones={this.state.excursiones}
-            />
-          )}
+          {(props) => <DetalleExcursion {...props} />}
         </Stack.Screen>
       </Stack.Navigator>
     );
@@ -221,12 +219,12 @@ class Campobase extends Component {
             ),
           }}
         />
-  
+
       </Drawer.Navigator>
     );
   };
 
-  
+
 
 
   render() {
@@ -244,6 +242,7 @@ class Campobase extends Component {
     );
   }
 }
+
 
 
 const styles = StyleSheet.create({
@@ -282,4 +281,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Campobase;
+export default connect(null, mapDispatchToProps)(Campobase);

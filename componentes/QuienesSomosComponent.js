@@ -1,9 +1,8 @@
 import { StyleSheet, View, ScrollView, Image } from 'react-native';
 import { Card, Text, Divider, List } from 'react-native-paper';
 import { Component } from 'react';
-import { ACTIVIDADES } from '../comun/actividades';
 import { getImageUrl } from '../comun/comun';
-
+import { connect } from 'react-redux';
 
 
 function Historia() {
@@ -33,14 +32,11 @@ function Historia() {
 }
 
 class QuienesSomos extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            actividades: ACTIVIDADES,
-        };
-    }
+    
 
     render() {
+        const actividades = this.props.actividades?.actividades ?? [];
+
         const renderActividadItem = (item) => {
             return (
                 <List.Item
@@ -57,24 +53,30 @@ class QuienesSomos extends Component {
             );
         };
 
-    return(
-        <ScrollView>
-            <Historia /> 
-            
-            <Card style={{ margin: 10 }}>
-                <Card.Title title='"Actividades y recursos"' />
-            
-                <Divider />
+        return (
+            <ScrollView>
+                <Historia />
 
-                {this.state.actividades.map(renderActividadItem)}
-            </Card>
-        </ScrollView>
-    );
+                <Card style={{ margin: 10 }}>
+                    <Card.Title title='"Actividades y recursos"' />
+
+                    <Divider />
+                    {actividades.map(renderActividadItem)}
+                </Card>
+            </ScrollView>
+        );
 
 
     }
 
 }
+
+const mapStateToProps = (state) => {
+    return {
+        actividades: state.actividades,
+    };
+};
+
 
 
 const styles = StyleSheet.create({
@@ -100,4 +102,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default QuienesSomos;
+export default connect(mapStateToProps)(QuienesSomos);
