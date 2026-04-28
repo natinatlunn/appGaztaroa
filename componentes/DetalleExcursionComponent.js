@@ -3,6 +3,7 @@ import { ImageBackground, View, StyleSheet, ScrollView } from 'react-native';
 import { Card, Text, IconButton } from 'react-native-paper';
 import { getImageUrl } from '../comun/comun';
 import { connect } from 'react-redux';
+import { postFavorito } from '../redux/ActionCreators';
 
 
 function RenderExcursion(props) {
@@ -57,10 +58,10 @@ function RenderComentario(props) {
           const fechaLegible = Number.isNaN(fechaNormalizada.getTime())
             ? comentario.dia
             : new Intl.DateTimeFormat('es-ES', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-              }).format(fechaNormalizada);
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+            }).format(fechaNormalizada);
 
           return (
             <View key={comentario.id} style={styles.comentarioItem}>
@@ -77,17 +78,10 @@ function RenderComentario(props) {
 
 
 class DetalleExcursion extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      favoritos: [],
-    };
 
-    this.marcarFavorito = this.marcarFavorito.bind(this);
-  }
 
   marcarFavorito(excursionId) {
-    this.setState({ favoritos: this.state.favoritos.concat(excursionId) });
+    this.props.postFavorito(excursionId);
   }
 
   render() {
@@ -100,7 +94,7 @@ class DetalleExcursion extends Component {
       <ScrollView>
         <RenderExcursion
           excursion={excursiones[idExcursion]}
-          favorita={this.state.favoritos.some((el) => el === idExcursion)}
+          favorita={this.props.favoritos.some((el) => el === idExcursion)}
           onPress={() => this.marcarFavorito(idExcursion)}
         />
         <RenderComentario
@@ -117,8 +111,13 @@ const mapStateToProps = (state) => {
   return {
     excursiones: state.excursiones,
     comentarios: state.comentarios,
+    favoritos: state.favoritos.favoritos ?? [],
   };
 };
+
+const mapDispatchToProps = dispatch => ({
+  postFavorito: (excursionId) => dispatch(postFavorito(excursionId))
+})
 
 const styles = StyleSheet.create({
   card: {
@@ -161,4 +160,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps)(DetalleExcursion);
+export default connect(mapStateToProps, mapDispatchToProps)(DetalleExcursion);

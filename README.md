@@ -69,4 +69,13 @@ La aplicación implementa una arquitectura basada en Redux y el middleware Thunk
 Una vez que los datos residen en el store, los componentes de la interfaz, como CalendarioComponent, consumen la información de manera reactiva mediante mapStateToProps, actualizándose automáticamente ante cualquier cambio. Al navegar hacia el DetalleExcursionComponent, la aplicación aprovecha este estado global ya cargado: el componente recibe el ID de la excursión, filtra la información necesaria directamente desde Redux y renderiza los detalles, optimizando el rendimiento al eliminar la necesidad de realizar peticiones redundantes a la red durante la navegación.
 
 Tiempo del ejercicio = 3h
+
 El documento con los diagramas se encuentra en el comentario del commit
+
+## Ejercicio 10
+
+En cuanto al Activity Indicator, se ha creado un componente reutilizable llamado IndicadorActividad que encapsula el componente nativo ActivityIndicator y el texto de estado asociado . Este componente se integra en las pantallas Home, Calendario y QuienesSomos, donde el renderizado de la interfaz al estado depende de las variables isLoading y errMess que vienen del store . De este modo, la aplicación informa visualmente al usuario cuando una petición asíncrona está en curso o si se ha producido un error durante la obtención de datos desde la API REST.  
+
+Respecto a la gestión de favoritos, se ha trasladado la lógica del estado local de DetalleExcursion al estado global de Redux . Para ello, se han definido los tipos de acción POST_FAVORITO y ADD_FAVORITO en ActionTypes.js y se ha implementado un nuevo reducer específico para gestionar el array de excursiones favoritas. La función postFavorito, implementada como un Thunk, simula una operación asíncrona con un retardo de dos segundos antes de despachar la acción que actualiza el estado global . Por último, el componente DetalleExcursion ha sido refactorizado para conectar con el store mediante connect(), utilizando mapStateToProps para acceder a la lista de favoritos global y mapDispatchToProps para despachar la acción de añadir un favorito, eliminando la dependencia del estado local.
+
+Tiempo del ejercicio = 1h30m

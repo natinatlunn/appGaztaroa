@@ -3,13 +3,28 @@ import { ImageBackground, ScrollView, View, StyleSheet } from 'react-native';
 import { Card, Text } from 'react-native-paper';
 import { getImageUrl } from '../comun/comun';
 import { connect } from 'react-redux';
+import IndicadorActividad from './IndicadorActividadComponent';
 
-function RenderItem({ item }) {
-  if (!item) {
-    return <View />;
+function RenderItem(props) {
+
+  if (props.isLoading) {
+    return (
+      <IndicadorActividad />
+    );
   }
 
-  return (
+  else if (props.errMess) {
+    return (
+      <View>
+        <Text>{props.errMess}</Text>
+      </View>
+    );
+  }
+
+  const item = props.item;
+
+  if (item!=null) {
+     return (
     <Card style={styles.card}>
       <ImageBackground
         source={{ uri: getImageUrl(item.imagen) }}
@@ -26,7 +41,13 @@ function RenderItem({ item }) {
         </Text>
       </Card.Content>
     </Card>
-  );
+    );
+  }
+  else{
+    return (<View></View>);
+  }
+
+ 
 }
 
 class Home extends Component {
@@ -37,9 +58,18 @@ class Home extends Component {
 
     return (
       <ScrollView>
-        <RenderItem item={cabeceras.filter((item) => item.destacado)[0]} />
-        <RenderItem item={excursiones.filter((item) => item.destacado)[0]} />
-        <RenderItem item={actividades.filter((item) => item.destacado)[0]} />
+        <RenderItem item={this.props.cabeceras.cabeceras.filter((cabecera) => cabecera.destacado)[0]}
+          isLoading={this.props.cabeceras.isLoading}
+          errMess={this.props.cabeceras.errMess}
+        />
+        <RenderItem item={this.props.excursiones.excursiones.filter((excursion) => excursion.destacado)[0]}
+          isLoading={this.props.excursiones.isLoading}
+          errMess={this.props.excursiones.errMess}
+        />
+        <RenderItem item={this.props.actividades.actividades.filter((actividad) => actividad.destacado)[0]}
+          isLoading={this.props.actividades.isLoading}
+          errMess={this.props.actividades.errMess}
+        />
       </ScrollView>
     );
   }

@@ -1,13 +1,15 @@
 import { Component } from 'react';
-import { FlatList, View, Image, StyleSheet } from 'react-native';
+import { FlatList, View, Image, StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { List, Divider } from 'react-native-paper';
 import { getImageUrl } from '../comun/comun';
 import { connect } from 'react-redux';
+import IndicadorActividad from './IndicadorActividadComponent';
 
 class Calendario extends Component {
   render() {
     const { navigate } = this.props.navigation;
+    const excursiones = this.props.excursiones?.excursiones ?? [];
 
     const renderCalendarioItem = ({ item }) => {
       return (
@@ -34,15 +36,31 @@ class Calendario extends Component {
       );
     };
 
-    return (
-      <SafeAreaView style={styles.container}>
-        <FlatList
-          data={this.props.excursiones?.excursiones ?? []}
-          renderItem={renderCalendarioItem}
-          keyExtractor={(item) => item.id.toString()}
-        />
-      </SafeAreaView>
-    );
+    if (this.props.excursiones.isLoading) {
+      return (
+        <IndicadorActividad />
+      );
+    }
+    else if (this.props.excursiones.errMess) {
+      return (
+        <View>
+          <Text>{this.props.excursiones.errMess}</Text>
+        </View>
+      );
+    }
+
+    else {
+      return (
+        <SafeAreaView style={styles.container}>
+          <FlatList
+            data={excursiones}
+            renderItem={renderCalendarioItem}
+            keyExtractor={(item) => item.id.toString()}
+          />
+        </SafeAreaView>
+      );
+    }
+
   }
 }
 

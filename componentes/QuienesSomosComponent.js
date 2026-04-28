@@ -3,6 +3,7 @@ import { Card, Text, Divider, List } from 'react-native-paper';
 import { Component } from 'react';
 import { getImageUrl } from '../comun/comun';
 import { connect } from 'react-redux';
+import IndicadorActividad from './IndicadorActividadComponent';
 
 
 function Historia() {
@@ -32,12 +33,15 @@ function Historia() {
 }
 
 class QuienesSomos extends Component {
-    
+
 
     render() {
         const actividades = this.props.actividades?.actividades ?? [];
 
         const renderActividadItem = (item) => {
+            if (!item || !item.id) {
+                return null;
+            }
             return (
                 <List.Item
                     key={item.id.toString()}
@@ -56,12 +60,22 @@ class QuienesSomos extends Component {
         return (
             <ScrollView>
                 <Historia />
-
-                <Card style={{ margin: 10 }}>
-                    <Card.Title title='"Actividades y recursos"' />
-
+                <Card style={styles.card}>
+                    <Card.Title title="Actividades y recursos" />
                     <Divider />
-                    {actividades.map(renderActividadItem)}
+                    {this.props.actividades?.isLoading ? (
+                        <IndicadorActividad />
+                    ) : this.props.actividades?.errMess ? (
+                        <Text>{this.props.actividades.errMess}</Text>
+                    ) : (
+                        this.props.actividades?.actividades?.map((item) => 
+                            item ? (
+                                <View key={item.id}>
+                                    {renderActividadItem(item)}
+                                </View>
+                            ) : null
+                        )
+                    )}
                 </Card>
             </ScrollView>
         );
