@@ -189,6 +189,38 @@
       "comentario": "Nada que objetar ni comentar...",
       "autor": "Anónimo",
       "dia": "2011-12-02T17:57:28.556094Z"
+    },
+    {
+      "excursionId": 2,
+      "valoracion": 5,
+      "autor": "ey",
+      "comentario": "ey",
+      "dia": "2026-05-06T11:01:52.795Z",
+      "id": 20
+    },
+    {
+      "excursionId": 1,
+      "valoracion": 5,
+      "autor": "ey",
+      "comentario": "ey",
+      "dia": "2026-05-06T11:02:50.724Z",
+      "id": 21
+    },
+    {
+      "excursionId": 1,
+      "valoracion": 3,
+      "autor": "nt",
+      "comentario": "hsj",
+      "dia": "2026-05-06T11:13:44.831Z",
+      "id": 22
+    },
+    {
+      "excursionId": 0,
+      "valoracion": 5,
+      "autor": "ey",
+      "comentario": "jjajajaj",
+      "dia": "2026-05-06T11:14:00.957Z",
+      "id": 23
     }
   ],
   "cabeceras": [

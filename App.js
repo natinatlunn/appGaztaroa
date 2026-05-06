@@ -12,12 +12,14 @@ import Campobase from './componentes/CampobaseComponent';
 export default function App() {
   return (
     <Provider store={store}>
-      <SafeAreaProvider>
-          <View style={{ flex: 1 }}>
-            <Campobase />
-            <StatusBar style="auto" />
-          </View>
-      </SafeAreaProvider>
+      <PaperProvider>
+        <SafeAreaProvider>
+            <View style={{ flex: 1 }}>
+              <Campobase />
+              <StatusBar style="auto" />
+            </View>
+        </SafeAreaProvider>
+      </PaperProvider>
     </Provider>
   );
 }

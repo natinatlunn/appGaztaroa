@@ -79,3 +79,15 @@ En cuanto al Activity Indicator, se ha creado un componente reutilizable llamado
 Respecto a la gestión de favoritos, se ha trasladado la lógica del estado local de DetalleExcursion al estado global de Redux . Para ello, se han definido los tipos de acción POST_FAVORITO y ADD_FAVORITO en ActionTypes.js y se ha implementado un nuevo reducer específico para gestionar el array de excursiones favoritas. La función postFavorito, implementada como un Thunk, simula una operación asíncrona con un retardo de dos segundos antes de despachar la acción que actualiza el estado global . Por último, el componente DetalleExcursion ha sido refactorizado para conectar con el store mediante connect(), utilizando mapStateToProps para acceder a la lista de favoritos global y mapDispatchToProps para despachar la acción de añadir un favorito, eliminando la dependencia del estado local.
 
 Tiempo del ejercicio = 1h30m
+
+## Ejercicio 11
+
+Como en React Native los formularios no existen como elementos predefinidos, hay que simularlos con la combinación de distintos componentes de entrada de datos. En este último ejercicio, se ha creado un acceso mediante un icono de lápiz en la vista de detalle de la excursión y cuando se pulsa, dispara un Modal. 
+
+El formulario diseñado tiene de tres secciones principales: una valoración numérica con estrellas, campos de texto y botones de control. La valoración se gestiona a través de cinco IconButton con forma de estrella, dejando al usuario seleccionar una puntuación del 1 al 5 (iniciando por defecto en 5). Para la introducción de datos textuales, se han integrado componentes TextInput de la librería react-native-paper. Al final hay dos botones: uno de Cancelar, que descarta los cambios y limpia el formulario, y otro de Enviar, que inicia el proceso de guardado en el sistema.
+
+La segunda parte del ejercicio vincula la interfaz gráfica con el Store de Redux, permitiendo que los nuevos comentarios se añadan al estado global de la aplicación sin necesidad de modificar el servidor externo. Mientras el usuario rellena el formulario, la información se almacena temporalmente en el estado local del componente DetalleExcursion, incluyendo la variable showModal que controla si la ventana es visible o no. 
+
+Para procesar el envío, se han definido dos nuevas acciones: POST_COMENTARIO y ADD_COMENTARIO. La función postComentario actúa como un Thunk que introduce un retardo artificial de dos segundos para simular la latencia de una red real antes de llamar a addComentario. El proceso se completa con funciones como toggleModal, para abrir y cerrar la ventana, y resetForm, que devuelve todos los campos a su estado inicial. Una vez que el comentario llega al reducer, este se encarga de generar un ID único y asignar la fecha actual  antes de concatenar el nuevo objeto al array global, garantizando la integridad de los datos en todo el Store.
+
+Tiempo empleado = 2h30m

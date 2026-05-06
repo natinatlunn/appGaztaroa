@@ -31,6 +31,48 @@ export const addComentarios = (comentarios) => ({
     payload: comentarios
 });
 
+export const postComentario = (excursionId, valoracion, autor, comentario) => (dispatch) => {
+    dispatch({ type: ActionTypes.POST_COMENTARIO });
+
+    const nuevoComentario = {
+        excursionId,
+        valoracion,
+        autor,
+        comentario,
+        dia: new Date().toISOString(),
+    };
+
+    return fetch(baseUrl + 'comentarios', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(nuevoComentario),
+    })
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('No se pudo guardar el comentario');
+        })
+        .then(() => {
+            setTimeout(() => {
+                dispatch(addComentario(excursionId, valoracion, autor, comentario, nuevoComentario.dia));
+            }, 2000);
+        });
+};
+
+export const addComentario = (excursionId, valoracion, autor, comentario, dia) => ({
+    type: ActionTypes.ADD_COMENTARIO,
+    payload: {
+        excursionId,
+        valoracion,
+        autor,
+        comentario,
+        dia,
+    }
+});
+
 export const fetchExcursiones = () => (dispatch) => {
 
     dispatch(excursionesLoading());

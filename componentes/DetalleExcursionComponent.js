@@ -1,9 +1,10 @@
 import { Component } from 'react';
 import { ImageBackground, View, StyleSheet, ScrollView } from 'react-native';
-import { Card, Text, IconButton } from 'react-native-paper';
+import { Card, Text, IconButton, Modal, Portal, TextInput, Button } from 'react-native-paper';
 import { getImageUrl } from '../comun/comun';
 import { connect } from 'react-redux';
-import { postFavorito } from '../redux/ActionCreators';
+import { postFavorito, postComentario } from '../redux/ActionCreators';
+
 
 
 function RenderExcursion(props) {
@@ -35,6 +36,12 @@ function RenderExcursion(props) {
                 ? console.log('La excursión ya se encuentra entre las favoritas')
                 : props.onPress()
             }
+          />
+          <IconButton
+            size={28}
+            onPress={props.onOpenComment}
+            icon="pencil"
+            color="chocolate"
           />
         </View>
       </Card>
@@ -83,6 +90,40 @@ class DetalleExcursion extends Component {
   marcarFavorito(excursionId) {
     this.props.postFavorito(excursionId);
   }
+  constructor(props) {
+    super(props);
+    this.state = {
+      valoracion: 5,
+      autor: '',
+      comentario: '',
+      showModal: false,
+    };
+  }
+
+  toggleModal = () => {
+    this.setState({ showModal: !this.state.showModal });
+  };
+
+  resetForm = () => {
+    this.setState({
+      valoracion: 3,
+      autor: '',
+      comentario: '',
+      showModal: false,
+    });
+  };
+
+  handleCancel = () => {
+    this.resetForm();
+  };
+
+  gestionarComentario = () => {
+    const { excursionId } = this.props.route.params;
+    const { valoracion, autor, comentario } = this.state;
+
+    this.props.postComentario(+excursionId, valoracion, autor, comentario);
+    this.resetForm();
+  };
 
   render() {
     const { excursionId } = this.props.route.params;
@@ -96,12 +137,57 @@ class DetalleExcursion extends Component {
           excursion={excursiones[idExcursion]}
           favorita={this.props.favoritos.some((el) => el === idExcursion)}
           onPress={() => this.marcarFavorito(idExcursion)}
+          onOpenComment={this.toggleModal}
         />
         <RenderComentario
           comentarios={comentarios.filter(
             (comentario) => comentario.excursionId === idExcursion
           )}
         />
+
+        <Portal>
+          <Modal visible={this.state.showModal} onDismiss={this.handleCancel} contentContainerStyle={styles.modalContainer}>
+            <View>
+              <Text style={{ textAlign: 'center', marginBottom: 8 }}>Valora la excursión</Text>
+              <View style={styles.starsRow}>
+                {[1,2,3,4,5].map((n) => (
+                  <IconButton
+                    key={n}
+                    icon={n <= this.state.valoracion ? 'star' : 'star-outline'}
+                    size={28}
+                    color="gold"
+                    onPress={() => this.setState({ valoracion: n })}
+                    style={styles.starButton}
+                  />
+                ))}
+              </View>
+
+              <TextInput
+                label="Nombre"
+                value={this.state.autor}
+                onChangeText={(text) => this.setState({ autor: text })}
+                left={<TextInput.Icon name="account" />}
+                style={{ marginTop: 12 }}
+              />
+
+              <TextInput
+                label="Comentario"
+                value={this.state.comentario}
+                onChangeText={(text) => this.setState({ comentario: text })}
+                left={<TextInput.Icon name="comment" />}
+                multiline
+                numberOfLines={4}
+                style={{ marginTop: 12 }}
+              />
+
+              <View style={styles.modalButtons}>
+                <Button mode="outlined" onPress={this.handleCancel} style={styles.modalButton}>Cancelar</Button>
+                <Button mode="contained" onPress={this.gestionarComentario} style={styles.modalButton}>Confirmar</Button>
+              </View>
+            </View>
+          </Modal>
+        </Portal>
+
       </ScrollView>
     );
   }
@@ -116,7 +202,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  postFavorito: (excursionId) => dispatch(postFavorito(excursionId))
+  postFavorito: (excursionId) => dispatch(postFavorito(excursionId)),
+  postComentario: (excursionId, valoracion, autor, comentario) => dispatch(postComentario(excursionId, valoracion, autor, comentario))
 })
 
 const styles = StyleSheet.create({
@@ -157,6 +244,28 @@ const styles = StyleSheet.create({
   iconoContainer: {
     alignItems: 'center',
     marginBottom: 8,
+  },
+  modalContainer: {
+    backgroundColor: 'white',
+    padding: 16,
+    margin: 16,
+    borderRadius: 6,
+  },
+  starsRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  starButton: {
+    paddingHorizontal: 6,
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 16,
+  },
+  modalButton: {
+    flex: 1,
+    marginHorizontal: 6,
   },
 });
 
